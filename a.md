@@ -19,14 +19,14 @@ This project will develop a functional IDS that monitors network traffic, detect
 
 ## 4. Technical Approach
 
-### Phase 1: Basic IDS (Week 1-2)
+### Phase 1: Basic IDS 
 | Task | Tools | Outcome |
 |------|-------|---------|
 | Packet capture | Scapy | Traffic analysis |
 | Rule detection | Regex | Threat detection |
 | Alerts | smtplib | Automation |
 
-### Phase 2: AI Integration (Week 3-4)
+### Phase 2: AI Integration 
 | Task | Tools | Outcome |
 |------|-------|---------|
 | Data collection | CIC-IDS2017 | Preprocessing |
@@ -42,7 +42,6 @@ This project will develop a functional IDS that monitors network traffic, detect
 ## 6. Requirements
 - Hardware: Laptops, RPi
 - Software: Python, Wireshark
-- Cloud: AWS (optional)
 
 ## 7. Timeline
 | Week | Task |
@@ -51,11 +50,6 @@ This project will develop a functional IDS that monitors network traffic, detect
 | 3-4 | AI integration |
 | 5 | Testing |
 
-## 8. Evaluation
-- Detection accuracy
-- False positive rate
-- Usability
-- Team participation
 
 ## 9. Future Work
 - Honeypot
