@@ -142,4 +142,4 @@ We follow a strict ethical framework to ensure **responsibility, transparency, a
 ---
 
  Ethiopia’s digital future — one simulation at a time.**  
-> _"Train like you fight. Fight like you train."_
+> _"Train like you fight. Fight like you train."-General George Patton_
