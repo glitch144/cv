@@ -1,145 +1,181 @@
-# 🛡️ CyberShield – Surprise-Based Social Engineering Awareness Platform
+# LocalPhishingDetector: A Proposal for Offline Phishing Detection in Ethiopian Languages
 
-> **Testing Human Security in Real Conditions — Built for Ethiopia**
+## 1. Overview
 
-**CyberShield** is a realistic, AI-powered simulation platform that conducts **unannounced phishing, ransomware, voice scams, and red-team attacks** to test how employees and IT teams truly react when they believe an attack is real.
+This document outlines a technical proposal for a local, offline-capable system designed to detect phishing messages in digital communications, with a focus on Ethiopian languages. The system is intended to operate without reliance on cloud services, preserving user privacy and enabling deployment in low-connectivity environments.
 
-Designed by Ethiopian students for Ethiopian institutions, CyberShield addresses the critical gap between **theoretical training** and **real-world cyber readiness** — especially in government, banking, education, and healthcare.
-
-🎯 *Mission:* Turn human vulnerability into human defense through **ethical surprise testing**, **localized awareness**, and **data-driven improvement**.
+The primary communication platform under consideration is Telegram, with an initial focus on detecting phishing in direct messages and group chats. The system will support multiple Ethiopian languages, including Amharic, Tigrinya, Oromo, and Somali, in both native scripts (e.g., Ge'ez) and Latinized (romanized) forms.
 
 ---
 
-## 🔍 Why CyberShield?
+## 2. Background and Motivation
 
-In Ethiopia, digital transformation is accelerating — but **security culture is lagging**.  
-Despite growing cyber threats, most organizations:
-- Rely on outdated, one-time security training.
-- Never test their teams with realistic attacks.
-- Have no way to measure who clicks, who panics, and who reports.
+### 2.1 Rising Use of Digital Messaging in Ethiopia
 
-Worse: **real hackers don’t warn their victims.**  
-So why should security tests?
+With increasing internet penetration, platforms such as Telegram have become widely used for personal, educational, and institutional communication in Ethiopia. This growth has been accompanied by a rise in social engineering attacks, particularly phishing attempts delivered through direct messages.
 
-> 🔎 **CyberShield simulates real attacks — without prior notice — to reveal true organizational readiness.**
+Common attack patterns include:
+- Impersonation of family members or officials
+- Fake bank or government alerts
+- Requests for urgent financial transfers
+- False account verification notices
 
----
+These messages are increasingly composed in local languages and use informal, conversational styles that evade traditional filtering mechanisms.
 
-## 🎯 Objectives
+### 2.2 Limitations of Existing Solutions
 
-1. **Test Real Behavior**  
-   - Launch unannounced phishing, fake ransomware, and voice scams.
-   - Measure click rates, reporting speed, and panic responses.
+Current phishing detection tools exhibit several shortcomings in the Ethiopian context:
 
-2. **Challenge IT Teams**  
-   - Simulate covert C2 callbacks, log tampering, and malware beacons.
-   - Evaluate SOC detection capabilities under surprise conditions.
+- **Language support**: Most models are trained on English text and perform poorly on Amharic, Oromo, and other local languages.
+- **Script handling**: Few systems support Ge'ez script or recognize Latinized variants (e.g., "kemey?" for ከመይ?).
+- **Connectivity dependence**: Cloud-based AI models require stable internet, limiting usability in rural or low-infrastructure areas.
 
-3. **Improve Cyber Resilience**  
-   - Deliver personalized feedback and gamified training.
-   - Reduce human risk through repeated drills.
-
-4. **Support Compliance**  
-   - Generate audit-ready reports aligned with **INSA**, **NIST**, and **ISO 27001**.
+There is currently no publicly available tool that provides offline, privacy-preserving phishing detection for Ethiopian language messages.
 
 ---
 
-## 🚀 Key Features
+## 3. Objectives
 
-| Feature | Description |
-|-------|-------------|
-| **Unannounced Phishing** | AI-generated emails (Amharic & English) sent without warning. Tracks opens, clicks, and reports. |
-| **Fake Ransomware Popup** | Harmless Electron.js popup mimicking WannaCry. Logs user reaction: pay, panic, or report? |
-| **Bait Document Traps** | Decoy files (e.g., “Confidential_Budget.xlsx”) with hidden trackers. Alerts if opened/copied. |
-| **Voice Clone Scams (Vishing)** | AI-generated audio: “This is IT — your system is infected.” Tests emotional manipulation. |
-| **Stealth Red-Team Beacons** | Simulated malware "phoning home" to test SOC detection of outbound traffic. |
-| **Live Admin Dashboard** | Real-time view of attack progress. No visibility for employees until debrief. |
-| **Gamified Debrief Portal** | Post-test training with badges, leaderboards, and personalized feedback. |
+The project aims to develop a system with the following capabilities:
+
+1. Detect phishing content in text messages written in Amharic, Tigrinya, Oromo, and Somali.
+2. Support both Ge'ez script and Latinized orthographies.
+3. Operate entirely offline, with no external data transmission.
+4. Integrate with Telegram through a bot interface.
+5. Provide real-time feedback to users without storing message content.
 
 ---
 
-## 🧪 Methodology: Realism Through Surprise
+## 4. System Design
 
-### Phase 1: Research & Authorization (2 Weeks)
-- Partner with a willing organization (e.g., university, bank).
-- Obtain **written approval from management**.
-- Define scope: departments, roles, attack types.
+### 4.1 Architecture
 
-### Phase 2: Covert System Setup (4 Weeks)
-- Deploy backend (Flask + SQLite).
-- Plant bait documents in shared drives.
-- Configure tracking and phishing engine.
+The system consists of three main components:
 
-### Phase 3: AI Attack Generation (3 Weeks)
-- Fine-tune **Mistral-7B** for realistic Amharic/English emails.
-- Use **ElevenLabs API** for AI voice scams.
-- Schedule attacks at realistic times (e.g., Monday morning).
+1. **Inference Engine**: Runs a lightweight large language model (LLM) locally.
+2. **Message Interface**: A Telegram bot that receives forwarded messages for analysis.
+3. **Classification Logic**: A prompt-based or fine-tuned model that classifies messages as phishing or non-phishing.
 
-### Phase 4: Surprise Testing (2 Weeks)
-- Launch **3 unannounced attack waves**:
-  1. Phishing + bait document
-  2. Fake ransomware popup
-  3. Voice scam + C2 beacon
-- Collect behavioral data in real time.
+All processing occurs on the user’s device or a trusted local server. No message data is stored or transmitted beyond the device.
 
-### Phase 5: Debrief & Reporting (1 Week)
-- Conduct **group debrief session**.
-- Deliver **personalized feedback** and training.
-- Generate **executive report** with risk scores and recommendations.
+### 4.2 Technical Components
+
+| Component | Technology |
+|---------|------------|
+| AI Model | Phi-3-mini-4k-instruct (quantized GGUF format) |
+| Inference Backend | llama.cpp |
+| Runtime Environment | Python 3.10+ |
+| Telegram Integration | python-telegram-bot library |
+| Operating System | Linux (Ubuntu/Debian recommended) |
+| Hardware Requirements | x86-64 CPU, 8GB RAM, 256GB storage |
+
+The model will be run in 4-bit quantized mode (e.g., Q4_K_M) to reduce memory usage and enable operation on consumer-grade hardware.
 
 ---
 
-## ⚖️ Ethical & Legal Safeguards
+## 5. Language and Script Support
 
-We follow a strict ethical framework to ensure **responsibility, transparency, and dignity**:
+The system will be tested and evaluated on the following language-script combinations:
 
-| Principle | Implementation |
-|---------|----------------|
-| **Management Consent** | Full approval required before any test. |
-| **No Real Harm** | All simulations are harmless. No real malware or data theft. |
-| **Post-Test Transparency** | All participants are debriefed — never shamed. |
-| **Anonymized Reporting** | Individuals hidden; only role/department shown. |
-| **Right to Opt-Out** | High-risk roles (e.g., mental health) may be excluded. |
+| Language | Script | Notes |
+|--------|--------|-------|
+| Amharic | Ge'ez | Primary focus |
+| Amharic | Latinized | Common in informal messaging |
+| Tigrinya | Ge'ez | Secondary focus |
+| Tigrinya | Latinized | Informal usage |
+| Oromo | Latin | Official orthography |
+| Somali | Latin | Official orthography |
 
-> ✅ This is **not a prank** — it’s a **professional security assessment**.
-
----
-
-## 📊 Expected Outcomes
-
-| Metric | Baseline | Target After 3 Drills |
-|-------|---------|------------------------|
-| Phishing Click Rate | 60–80% | ≤ 30% |
-| Ransomware Panic | 70% | ≤ 20% |
-| Reporting Time | 2+ hours | < 10 minutes |
-| IT Detection Rate | < 40% | > 80% |
-
-> 🌍 Goal: Scale to **Ethio Telecom, Commercial Bank of Ethiopia, Ministry of Health**, and beyond.
+Training and evaluation data will include both synthetic and real-world message samples, with attention to colloquial expressions and common scam patterns.
 
 ---
 
-## ⚙️ Tech Stack
+## 6. User Interaction Model
 
-| Layer | Technology |
-|------|-----------|
-| **Frontend** | React.js (Dashboard), Electron.js (Ransomware Popup) |
-| **Backend** | Python (Flask), SQLite |
-| **AI** | Mistral-7B (Text), ElevenLabs (Voice) |
-| **Tracking** | UUID logging, IP/device fingerprinting |
-| **Deployment** | Docker (On-premise) — ideal for air-gapped or low-connectivity environments |
+Due to Telegram API limitations, the system will not automatically monitor incoming direct messages. Instead, it will rely on **user-initiated forwarding** to a dedicated bot.
 
----
+### Workflow:
+1. A user receives a suspicious message in a chat or group.
+2. The user forwards the message to the bot.
+3. The bot processes the message using the locally hosted model.
+4. The bot replies with a classification: "Potential phishing" or "No signs of phishing detected."
+5. The message is discarded after processing.
 
-## 🗓️ Timeline 
-
-| Phase | Duration |
-|------|---------|
-| Covert System Setup | 4 Weeks |
-| AI Attack Design | 3 Weeks |
-| Surprise Testing | 2 Weeks |
-| Debrief & Final Report | 1 Week |
+This method ensures user control, maintains privacy, and complies with platform policies.
 
 ---
 
- Ethiopia’s digital future — one simulation at a time.**  
-> _"Train like you fight. Fight like you train."-General George Patton_
+## 7. Development Plan
+
+### Phase 1: Environment Setup (Week 1-2)
+- Install and configure `llama.cpp` and dependencies
+- Load and test Phi-3-mini model with sample inputs
+- Verify multilingual inference capability
+
+### Phase 2: Data Collection (week 3-4)
+- Compile a dataset of phishing and non-phishing messages
+- Include examples in Amharic, Oromo, Somali, and Tigrinya
+- Annotate messages with labels and metadata
+
+### Phase 3: Bot Development (week 5)
+- Implement Telegram bot using `python-telegram-bot`
+- Connect bot to local inference pipeline
+- Test end-to-end message processing
+
+### Phase 4: Evaluation and Refinement (week 6 and beyond)
+- Conduct internal testing with 10–20 users
+- Collect feedback on accuracy and usability
+- Adjust prompts or fine-tune model if needed
+
+### Phase 5: Future Work (Beyond v1)
+- Explore Android deployment using ONNX or ML Kit
+- Investigate speech-to-text integration for voice messages
+- Extend to SMS or email platforms
+- Develop a multi-user dashboard for organizational use
+
+---
+
+
+## 8. Ethical Considerations
+
+The following principles guide the design and deployment of the system:
+
+- **No passive monitoring**: The system only analyzes messages explicitly forwarded by the user(DM feature)
+- **No data retention**: Messages are processed in memory and discarded immediately.
+- **User agency**: Users must actively choose to use the tool.
+- **No profiling**: The system does not collect user identities or behavioral data.
+
+The goal is to support user autonomy, not to enable surveillance or automated filtering.
+
+---
+
+## 9. Expected Outcomes
+
+- A functional prototype capable of classifying phishing messages in Ethiopian languages
+- A publicly available dataset of labeled local-language phishing samples
+- Documentation for installation, usage, and contribution
+- A foundation for future research into localized AI safety tools
+
+The system is not expected to achieve 100% accuracy, especially in early versions, but aims to provide meaningful assistance in high-risk scenarios.
+
+---
+
+## 10. Deliverables
+
+- Local inference pipeline using Phi-3-mini and llama.cpp
+- Telegram bot interface with classification capability
+- Labeled dataset in JSONL format
+- Setup and user guide (in English and Amharic)
+- Public GitHub repository with MIT license
+
+---
+
+## 11. Conclusion
+
+This project addresses a gap in digital security tools for Ethiopian language users by proposing a local, offline, and privacy-preserving approach to phishing detection. By leveraging recent advances in small language models and focusing on real-world usage patterns, the system aims to provide practical support in environments where connectivity, literacy, and trust are key constraints.
+
+The use of message forwarding to a local bot provides a feasible and ethical method for user interaction, avoiding automated surveillance while still enabling timely feedback.
+
+Future work will depend on community input, data availability, and hardware accessibility, with the long-term goal of contributing to broader efforts in inclusive and responsible AI development.
+
+---
